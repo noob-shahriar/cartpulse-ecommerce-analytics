@@ -1,0 +1,12 @@
+# Versions used to build and test the project (Python 3.12)
+pandas>=3.0.2
+numpy>=2.4.4
+matplotlib>=3.10.8
+seaborn>=0.13.2
+scipy>=1.17.1
+psycopg2-binary>=2.9.13
+SQLAlchemy>=2.1.1
+jupyter>=1.1.1
+nbformat>=5.11.1
+nbconvert>=7.17.1
+ipykernel>=7.3.0
