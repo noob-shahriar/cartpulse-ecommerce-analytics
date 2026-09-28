@@ -1,0 +1,121 @@
+[
+  {
+    "step": "orders/dates",
+    "problem": "Date columns are stored as text in the CSV",
+    "decision": "Parsed to datetime in pandas",
+    "reason": "Needed for delivery-time maths",
+    "impact": "0 rows changed; 5 columns typed"
+  },
+  {
+    "step": "orders/status",
+    "problem": "Orders with status canceled/unavailable, or with no items, are not real sales",
+    "decision": "Kept every row but flagged is_valid_sale = False; revenue KPIs use valid sales only",
+    "reason": "Avoids deleting data while stopping cancelled/unavailable orders from inflating revenue",
+    "impact": "1,242 of 99,441 orders flagged non-sale (1.25%)"
+  },
+  {
+    "step": "orders/delivery",
+    "problem": "Delivered orders with no delivery date; canceled orders that have a delivery date",
+    "decision": "Flagged; excluded from delivery-time and late-rate metrics (delivery_metrics_ok = False). Rows kept for sales metrics",
+    "reason": "A delivery time cannot be computed without the date, and we must not guess it",
+    "impact": "8 delivered-without-date and 6 non-delivered-with-date orders excluded from delivery metrics"
+  },
+  {
+    "step": "orders/date order",
+    "problem": "Carrier pickup earlier than purchase time; customer delivery earlier than carrier pickup",
+    "decision": "Flagged only (not corrected)",
+    "reason": "Likely timestamp recording noise; delivery_days uses purchase -> customer delivery, which is not affected by the carrier timestamp",
+    "impact": "166 carrier-before-purchase, 23 customer-before-carrier rows flagged"
+  },
+  {
+    "step": "orders/period",
+    "problem": "2016 has only 3 sparse months, and Sept/Oct 2018 have 20 orders in total (partial data)",
+    "decision": "Kept all rows; flag in_full_month_window (Jan 2017 - Aug 2018) is used for trend and growth analysis",
+    "reason": "Including tiny partial months would create fake growth/decline spikes",
+    "impact": "349 orders sit outside the trend window (0.35%)"
+  },
+  {
+    "step": "customers/text",
+    "problem": "City/state text may be inconsistent",
+    "decision": "Trimmed, city lower-cased, state upper-cased, macro-region added",
+    "reason": "Consistent grouping keys",
+    "impact": "0 customers without region; customer_id unique=True; 96,096 real customers behind 99,441 customer_ids"
+  },
+  {
+    "step": "items/values",
+    "problem": "Checked for price <= 0, negative freight, duplicates",
+    "decision": "No change needed",
+    "reason": "Zero invalid values found",
+    "impact": "price<=0: 0, freight<0: 0, duplicate rows: 0; 383 items with free freight kept"
+  },
+  {
+    "step": "items/outliers",
+    "problem": "Right-skewed prices with high values (max R$ 6,735)",
+    "decision": "Flagged with IQR rule (flag_price_outlier); NOT removed",
+    "reason": "High prices are real luxury/bulky items, not errors; removing them would understate revenue",
+    "impact": "8,427 items (7.5%) above R$ 277"
+  },
+  {
+    "step": "payments/zero",
+    "problem": "Zero-value payments (vouchers / not_defined)",
+    "decision": "Kept and flagged",
+    "reason": "Real voucher rows; harmless in sums",
+    "impact": "9 rows flagged"
+  },
+  {
+    "step": "reviews/duplicates",
+    "problem": "review_id repeats and 547 orders have several reviews",
+    "decision": "Kept one review per order: the most recent by answer timestamp",
+    "reason": "Gives one score per order, so joins do not multiply order/revenue rows",
+    "impact": "99,224 -> 98,673 rows (551 older duplicates set aside)"
+  },
+  {
+    "step": "products/category",
+    "problem": "610 products have no category; 2 categories are missing from the translation file",
+    "decision": "Missing category -> 'unknown'; 2 categories translated manually (documented in EXTRA_TRANSLATION)",
+    "reason": "Keeps these products in analysis instead of dropping their revenue",
+    "impact": "610 products = 'unknown'; 74 distinct categories after cleaning"
+  },
+  {
+    "step": "products/columns",
+    "problem": "Source column names contain the typo 'lenght'",
+    "decision": "Renamed to 'length'",
+    "reason": "Readability",
+    "impact": "2 columns renamed"
+  },
+  {
+    "step": "products/weight",
+    "problem": "Products with weight of 0 g (impossible) or missing dimensions",
+    "decision": "Zero weight set to NULL; missing dimensions left NULL",
+    "reason": "Not filled with guesses; weight/dimensions are not used for headline KPIs",
+    "impact": "6 products with unknown weight"
+  },
+  {
+    "step": "sellers/text",
+    "problem": "City/state text formatting",
+    "decision": "Trimmed and standardised",
+    "reason": "Consistent grouping keys",
+    "impact": "3,095 sellers, seller_id unique=True"
+  },
+  {
+    "step": "geolocation/dedupe",
+    "problem": "1,000,163 rows, 261,831 exact duplicates, many rows per zip prefix, 42 coordinates outside Brazil's bounding box",
+    "decision": "Dropped out-of-bounds points, then collapsed to one row per zip prefix (mean lat/lng, most common city/state)",
+    "reason": "A dimension needs one row per key",
+    "impact": "1,000,163 -> 19,010 rows (unique zip prefixes)"
+  },
+  {
+    "step": "integrity",
+    "problem": "Checked all foreign keys",
+    "decision": "No orphan rows to fix. Orders without items / payment are legitimate (cancelled/unavailable) and stay flagged",
+    "reason": "All fact rows have valid parents",
+    "impact": "{\"orders_without_customer\": 0, \"items_without_order\": 0, \"items_without_product\": 0, \"items_without_seller\": 0, \"payments_without_order\": 0, \"reviews_without_order\": 0, \"orders_without_items\": 775, \"orders_without_payment\": 1}"
+  },
+  {
+    "step": "payments/reconcile",
+    "problem": "payment_value differs from items + freight for some orders (installment interest, vouchers, rounding)",
+    "decision": "Kept both; documented: revenue = items_value (product GMV), order_value = items + freight, payment_value = cash paid",
+    "reason": "Choosing one definition per KPI avoids double counting",
+    "impact": "249 of 98,665 orders differ by more than R$ 1"
+  }
+]
