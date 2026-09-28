@@ -1,0 +1,21 @@
+# Raw data (Kaggle licence, ~125 MB) - download separately, see data/README.md
+data/raw/*.csv
+data/processed/*.csv
+data/processed/*.parquet
+!data/processed/samples/
+# Secrets / local config
+.env
+*.pem
+*.key
+credentials*
+# Python
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.venv/
+venv/
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
