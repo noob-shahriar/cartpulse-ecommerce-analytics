@@ -1,0 +1,5 @@
+tier,sellers,revenue_share_pct,avg_review_score,late_delivery_rate_pct
+1) 1-9 orders,1792,0.15,4.084,8.44
+2) 10-49,833,1.99,4.142,7.78
+3) 50-199,337,10.92,4.111,7.61
+4) 200+,91,86.93,4.074,8.36

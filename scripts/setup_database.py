@@ -62,6 +62,8 @@ def main():
         for name, df in [("dim_date", dates), ("dim_location", dim_loc), ("dim_customer", dim_cust), ("dim_product", dim_prod), ("dim_seller", dim_sell),
                          ("fact_orders", fo), ("fact_order_items", foi), ("fact_payments", fp), ("fact_reviews", fr)]:
             copy(cur, name, df)
+        for f in sorted((ROOT / "database" / "transformations").glob("*.sql")):   # analytical views
+            cur.execute(f.read_text()); print(f"  applied {f.name}")
         cur.execute("ANALYZE")
     print("Database load complete.")
 

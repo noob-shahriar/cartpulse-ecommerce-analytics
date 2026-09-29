@@ -1,0 +1,6 @@
+region,orders,revenue_brl,revenue_share_pct,avg_order_value_brl,freight_pct_of_product_value
+Southeast,67336,8822530.97,65.38,131.02,15.16
+South,13996,1938021.12,14.36,138.47,17.62
+Northeast,9305,1538209.28,11.40,165.31,21.74
+Central-West,5728,861825.09,6.39,150.46,17.63
+North,1834,333814.28,2.47,182.01,22.74

@@ -1,0 +1,5 @@
+main_payment_type,orders,mismatched_orders,mismatch_pct,net_difference_brl
+credit_card,74479,239,0.32,2909.20
+boleto,19614,0,0.00,-0.13
+voucher,3052,3,0.10,13.31
+debit_card,1520,7,0.46,-51.99

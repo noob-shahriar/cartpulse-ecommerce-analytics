@@ -1,0 +1,2 @@
+total_orders,total_customers,total_revenue_brl,total_freight_brl,total_order_value_brl,avg_order_value_brl,avg_order_value_incl_freight_brl,avg_items_per_order,revenue_per_customer_brl
+98199,94983,13494400.74,2241126.29,15735527.03,137.42,160.24,1.142,142.07

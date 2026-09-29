@@ -1,0 +1,7 @@
+check_name,problems
+items without seller,0
+items without product,0
+payments without order,0
+"duplicate (order_id, item_id)",0
+duplicate order_id,0
+orders without customer,0

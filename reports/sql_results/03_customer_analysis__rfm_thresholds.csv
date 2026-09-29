@@ -1,0 +1,2 @@
+avg_recency_days,recency_q1_median_q3,monetary_q1_median_q3_p90,max_frequency
+244.3,"[Decimal('120.0'), Decimal('225.0'), Decimal('353.0')]","[Decimal('47.9'), Decimal('89.9'), Decimal('155.0'), Decimal('281.6')]",16

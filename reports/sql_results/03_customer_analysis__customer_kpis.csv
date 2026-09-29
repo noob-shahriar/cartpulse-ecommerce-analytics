@@ -1,0 +1,2 @@
+unique_customers,repeat_customers,repeat_purchase_rate_pct,avg_orders_per_customer,avg_spend_brl,median_spend_brl,avg_spend_one_time_brl,avg_spend_repeat_brl,revenue_share_from_repeat_pct
+94983,2887,3.04,1.0339,142.07,89.89,138.38,259.95,5.56
