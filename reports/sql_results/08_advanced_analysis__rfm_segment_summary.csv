@@ -1,0 +1,6 @@
+segment,customers,pct_of_customers,avg_recency_days,avg_frequency,avg_monetary_brl,total_revenue_brl,revenue_share_pct
+Potential Loyalists,36108,38.02,94.9,1.00,140.63,5077748.24,37.63
+At-Risk Customers,13917,14.65,349.0,1.04,346.45,4821611.53,35.73
+Low-Engagement Customers,42621,44.87,340.6,1.00,69.85,2977224.58,22.06
+Champions,1213,1.28,92.9,2.15,268.89,326161.87,2.42
+Loyal Customers,1124,1.18,261.1,2.09,259.48,291654.52,2.16
