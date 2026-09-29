@@ -1,6 +1,7 @@
 # Raw data (Kaggle licence, ~125 MB) - download separately, see data/README.md
 data/raw/*.csv
 data/processed/*.csv
+data/processed/**/*.csv
 data/processed/*.parquet
 !data/processed/samples/
 # Secrets / local config
